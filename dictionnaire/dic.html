@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="dic.css">
+</head>
+
+<body>
+<div class="container">
+  <h2>Solomon Dictionary</h2>
+  <input type="text" id="word" placeholder="Put your word here">
+  <div class="content">
+    <div class="audio">
+        <audio src="" id="audio"></audio>
+    </div>
+  
+    <p id="phon"></p>
+  <p id="def"></p>
+  <p id="anton"></p>
+  </div>
+   
+  <button id="btn" onclick="myBtn()">Find it</button>
+  <script>
+  
+    function myBtn(){
+      
+      const word = document.getElementById("word").value;
+   if(!word){
+        alert("Please enter a word");
+        return;
+      }
+  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+  .then(function(response){
+  return response.json();
+})
+.then(function(data){
+  console.log(data);
+  const soundDic = data[0].phonetics[1].audio;
+  const dicSound = document.getElementById("audio");
+    dicSound.src = soundDic;
+    dicSound.controls = true;
+    
+ // console.log(soundDic);
+ document.getElementById("phon").innerHTML= "<b>Phonetic:</b> " + data[0].phonetic;
+ if(!data[0].phonetic){
+   document.getElementById("phon").innerHTML= "<b>Phonetic:</b> " + "No phonetic for this word."
+ }
+ document.getElementById("def").innerHTML= "<b>Definition:</b> " + data[0].meanings[0].definitions[0].definition; 
+  document.getElementById("anton").innerHTML= "<b>Antonym:</b> " + data[0].meanings[0].antonyms[0]; 
+ if(!data[0].meanings[0].antonyms[0]){
+   document.getElementById("anton").innerHTML= "<b>Antonym:</b> " + "No antonym for this word."
+ }
+})
+.catch(function(e){
+  alert("Non-existent word");
+  return;
+  console.error("Error: ", e);
+  
+})
+    }
+  </script>
+</div>
+</body>
+
+</html>
