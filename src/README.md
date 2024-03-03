@@ -1,2 +1,2 @@
 # dictionnaire
-https://github.com/sugirangendahayo/dictionnaire.git
+https://sugirangendahayo.github.io/dictionnaire/dic.html
